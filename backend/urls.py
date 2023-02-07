@@ -16,7 +16,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -24,13 +25,16 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView
 )
 
+
 from rest_framework.routers import DefaultRouter
 
-from dashboard.views import CourseViewSet, UserViewSet
+from dashboard.views import CourseViewSet, UserViewSet, UnitViewSet, VideoViewSet
 
 dashboard_router = DefaultRouter()
 dashboard_router.register(r'courses', CourseViewSet, basename='course')
 dashboard_router.register(r'users', UserViewSet, basename='user')
+dashboard_router.register(r'units', UnitViewSet, basename='unit')
+dashboard_router.register(r'videos', VideoViewSet, basename='file')
 
 
 urlpatterns = [
@@ -40,4 +44,4 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
     path('api/dashboard/', include(dashboard_router.urls)),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

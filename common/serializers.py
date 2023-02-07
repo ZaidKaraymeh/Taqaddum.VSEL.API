@@ -1,22 +1,26 @@
 from rest_framework import serializers
-from common.models import Course
+from common.models import Course, Unit, File
 from django.contrib.auth.models import User
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
 
-    # def create(self, validated_data):
-    #     course = Course.objects.create(
-    #         title=validated_data['title'],
-    #         description=validated_data['description'],
-    #         educator=validated_data['educator']
-    #     )
-    #     return course
-
     class Meta:
         model = Course
         fields = ['url', 'id', 'units', 'educator', 'title', 'description', 'created_at', 'updated_at']
+        depth = 1
         # optional_fields = ['educator', ]
 
+class UnitSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Unit
+        fields = '__all__'
+
+class VideoSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = File
+        fields = ['url', 'id', 'file', 'title', 'description']
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     password = serializers.CharField(write_only=True)
