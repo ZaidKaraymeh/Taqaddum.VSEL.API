@@ -11,6 +11,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     """
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    page_size = 10
 
     # def get_permissions(self):
         # """
@@ -24,8 +25,23 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = Course.objects.filter(educator = request.user.id)
-        serializer = CourseSerializer(queryset, many=True, context={'request': request})
+        # serializer = CourseSerializer(queryset, many=True, context={'request': request})
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+    # def create(self, request):
+    #     serializer = CourseSerializer(data=request.data, context={'request': request})
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     else:
+    #         return Response(serializer.error_messages)
+
 
 
 class UserViewSet(viewsets.ModelViewSet):

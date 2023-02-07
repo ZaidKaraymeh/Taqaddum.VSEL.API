@@ -3,9 +3,19 @@ from common.models import Course
 from django.contrib.auth.models import User
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
+
+    # def create(self, validated_data):
+    #     course = Course.objects.create(
+    #         title=validated_data['title'],
+    #         description=validated_data['description'],
+    #         educator=validated_data['educator']
+    #     )
+    #     return course
+
     class Meta:
         model = Course
-        fields = ['url', 'id', 'educator', 'units', 'title', 'description', 'created_at', 'updated_at']
+        fields = ['url', 'id', 'units', 'educator', 'title', 'description', 'created_at', 'updated_at']
+        # optional_fields = ['educator', ]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
