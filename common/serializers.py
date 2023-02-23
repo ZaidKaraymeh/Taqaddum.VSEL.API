@@ -9,6 +9,10 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'id', 'units', 'educator', 'title', 'description', 'created_at', 'updated_at']
         depth = 1
         # optional_fields = ['educator', ]
+    
+    # write a save function that putss user from request
+    
+
 
 class UnitSerializer(serializers.HyperlinkedModelSerializer):
 
